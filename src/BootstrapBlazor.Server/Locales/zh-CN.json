@@ -4845,7 +4845,8 @@
     "DataPackageAdapter": "数据适配器",
     "SocketAutoConnect": "自动重连",
     "SocketDataEntity": "通讯数据转实体类",
-    "NetworkMonitor": "网络状态 NetworkMonitor"
+    "NetworkMonitor": "网络状态 NetworkMonitor",
+    "Toolbar": "工具栏 Toolbar"
   },
   "BootstrapBlazor.Server.Components.Samples.Table.TablesHeader": {
     "TablesHeaderTitle": "表头分组功能",
@@ -6687,7 +6688,8 @@
   "BootstrapBlazor.Server.Components.Samples.BrowserFingers": {
     "BrowserFingerTitle": "浏览器指纹",
     "BrowserFingerIntro": "通过调用 <code>IBrowserFingerService</code> 服务实例方法 <code>GetFingerCodeAsync</code> 获得客户端浏览器指纹，隐私模式下指纹是一致的",
-    "GetFingerCodeAsync": "获得指纹方法"
+    "GetFingerCodeAsync": "获得指纹方法",
+    "GetClientHubIdAsync": "获得客户端连接 Id 方法"
   },
   "BootstrapBlazor.Server.Components.Samples.SvgEditors": {
     "SvgEditorTitle": "Svg 编辑器",
@@ -7150,5 +7152,11 @@
     "IndicatorLi2": "黄色：网络一般 (3G)",
     "IndicatorLi3": "红色：网络差 (2G)",
     "IndicatorLi4": "灰色：离线状态"
+  },
+  "BootstrapBlazor.Server.Components.Samples.Toolbars": {
+    "ToolbarsTitle": "Toolbar 工具栏",
+    "ToolbarSubTitle": "是按钮或其他应用程序特定工具的容器",
+    "NormalTitle": "基本用法",
+    "NormalIntro": ""
   }
 }
