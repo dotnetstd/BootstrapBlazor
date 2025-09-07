@@ -92,6 +92,13 @@ internal static class MenusLocalizerExtensions
 
         item = new DemoMenuItem()
         {
+            Text = Localizer["ModbusComponents"],
+            Icon = "fa-fw fa-solid fa-satellite-dish text-danger"
+        };
+        AddModbus(item);
+
+        item = new DemoMenuItem()
+        {
             Text = Localizer["Services"],
             Icon = "fa-fw fa-solid fa-screwdriver-wrench",
         };
@@ -209,6 +216,12 @@ internal static class MenusLocalizerExtensions
             {
                 new()
                 {
+                    IsNew = true,
+                    Text = Localizer["TcpSocketFactory"],
+                    Url = "socket-factory"
+                },
+                new()
+                {
                     Text = Localizer["SocketManualReceive"],
                     Url = "socket/manual-receive"
                 },
@@ -234,7 +247,23 @@ internal static class MenusLocalizerExtensions
                     Url = "socket/data-entity"
                 }
             };
-            AddBadge(item, count: 1);
+
+            AddBadge(item, count: 2);
+        }
+
+        void AddModbus(DemoMenuItem item)
+        {
+            item.Items = new List<DemoMenuItem>
+            {
+                new()
+                {
+                    IsNew = true,
+                    Text = Localizer["ModbusFactory"],
+                    Url = "modbus-factory"
+                }
+            };
+
+            AddBadge(item, count: 2);
         }
 
         void AddQuickStar(DemoMenuItem item)
@@ -814,6 +843,12 @@ internal static class MenusLocalizerExtensions
                 {
                     Text = Localizer["Tag"],
                     Url = "tag"
+                },
+                new()
+                {
+                    IsNew = true,
+                    Text = Localizer["TaskDashBoard"],
+                    Url = "task-board"
                 },
                 new()
                 {
@@ -1554,6 +1589,12 @@ internal static class MenusLocalizerExtensions
                 },
                 new()
                 {
+                    IsNew = true,
+                    Text = Localizer["Dom2ImageService"],
+                    Url = "dom2image"
+                },
+                new()
+                {
                     Text = Localizer["Download"],
                     Url = "download"
                 },
@@ -1627,12 +1668,6 @@ internal static class MenusLocalizerExtensions
                 {
                     Text = Localizer["PrintService"],
                     Url = "print-service"
-                },
-                new()
-                {
-                    IsNew = true,
-                    Text = Localizer["TcpSocketFactory"],
-                    Url = "socket-factory"
                 },
                 new()
                 {

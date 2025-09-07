@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 // Maintainer: Argo Zhang(argo@live.ca) Website: https://www.blazor.zone
 
-using BootstrapBlazor.OpcDa;
 using Longbow.Tasks.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
@@ -35,12 +34,9 @@ static class ServiceCollectionExtensions
         // 增加 SignalR 服务数据传输大小限制配置
         services.Configure<HubOptions>(option => option.MaximumReceiveMessageSize = null);
 
-#if !DEBUG
         // 增加后台任务服务
         services.AddTaskServices();
         services.AddHostedService<ClearTempFilesService>();
-        services.AddHostedService<MockOnlineContributor>();
-#endif
         services.AddHostedService<MockReceiveSocketServerService>();
         services.AddHostedService<MockSendReceiveSocketServerService>();
         services.AddHostedService<MockCustomProtocolSocketServerService>();
@@ -55,6 +51,12 @@ static class ServiceCollectionExtensions
             // 增加 OpcDa 模拟服务（给 Linux 平台使用）
             services.AddMockOpcDaServer();
         }
+
+        // 增加 ITcpSocketFactory 服务
+        services.AddTcpSocketFactory();
+
+        // 增加 IModbusFactory 服务
+        services.AddModbusFactory();
 
         // 增加通用服务
         services.AddBootstrapBlazorServices();
