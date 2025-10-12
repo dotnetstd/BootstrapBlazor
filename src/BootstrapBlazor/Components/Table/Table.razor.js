@@ -114,6 +114,18 @@ export function reset(id) {
     observeHeight(table)
 }
 
+export function fitAllColumnWidth(id) {
+    const table = Data.get(id)
+    if (table === null) {
+        return;
+    }
+
+    const columns = [...table.tables[0].querySelectorAll('.col-resizer')];
+    columns.forEach(async col => {
+        await autoFitColumnWidth(table, col);
+    });
+}
+
 const observeHeight = table => {
     setBodyHeight(table);
 
@@ -714,7 +726,6 @@ const indexOfCol = col => {
 
 const autoFitColumnWidth = async (table, col) => {
     const field = col.getAttribute('data-bb-field');
-    const widthValue = await table.invoke.invokeMethodAsync(table.options.autoFitContentCallback, field);
 
     const index = indexOfCol(col);
     let rows = null;
@@ -730,6 +741,19 @@ const autoFitColumnWidth = async (table, col) => {
         const cell = row.cells[index];
         maxWidth = Math.max(maxWidth, calcCellWidth(cell));
     });
+
+    if (table.options.fitColumnWidthIncludeHeader) {
+        const th = col.closest('th');
+        const span = th.querySelector('.table-cell');
+        maxWidth = Math.max(maxWidth, calcCellWidth(span));
+    }
+
+    if (table.options.autoFitColumnWidthCallback !== null) {
+        const widthValue = await table.invoke.invokeMethodAsync(table.options.autoFitColumnWidthCallback, field, maxWidth);
+        if (widthValue > 0) {
+            maxWidth = widthValue;
+        }
+    }
 
     if (maxWidth > 0) {
         table.tables.forEach(table => {
@@ -768,8 +792,7 @@ const calcCellWidth = cell => {
     document.body.appendChild(div);
 
     const cellStyle = getComputedStyle(cell);
-    const width = div.offsetWidth + parseFloat(cellStyle.getPropertyValue('padding-left')) + parseFloat(cellStyle.getPropertyValue('padding-right'));
-    div.remove();
+    const width = div.offsetWidth + parseFloat(cellStyle.getPropertyValue('padding-left')) + parseFloat(cellStyle.getPropertyValue('padding-right')) + parseFloat(cellStyle.getPropertyValue('border-left-width')) + parseFloat(cellStyle.getPropertyValue('border-right-width')) + 1;
     return width;
 }
 

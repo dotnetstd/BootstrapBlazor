@@ -1065,7 +1065,8 @@ public partial class Table<TItem> : ITable, IModelEqualityComparer<TItem> where 
             await InvokeVoidAsync("init", Id, Interop, new
             {
                 DragColumnCallback = nameof(DragColumnCallback),
-                AutoFitContentCallback = nameof(AutoFitContentCallback),
+                AutoFitColumnWidthCallback = OnAutoFitColumnWidthCallback == null ? null : nameof(AutoFitColumnWidthCallback),
+                FitColumnWidthIncludeHeader,
                 ResizeColumnCallback = OnResizeColumnAsync != null ? nameof(ResizeColumnCallback) : null,
                 ColumnMinWidth = ColumnMinWidth ?? Options.CurrentValue.TableSettings.ColumnMinWidth,
                 ScrollWidth = ActualScrollWidth,
@@ -1588,7 +1589,29 @@ public partial class Table<TItem> : ITable, IModelEqualityComparer<TItem> where 
     /// 获得/设置 自动调整列宽回调方法
     /// </summary>
     [Parameter]
-    public Func<string, Task<float>>? OnAutoFitContentAsync { get; set; }
+    [Obsolete("已弃用，请使用 OnAutoFitColumnWidthCallback 替代; Deprecated, please use OnAutoFitColumnWidthCallback instead")]
+    [ExcludeFromCodeCoverage]
+    public Func<string, float, Task<float>>? OnAutoFitContentAsync { get; set; }
+
+    /// <summary>
+    /// 获得/设置 自动调整列宽回调方法
+    /// </summary>
+    [Parameter]
+    public Func<string, float, Task<float>>? OnAutoFitColumnWidthCallback { get; set; }
+
+    /// <summary>
+    /// 获得/设置 列宽自适应时是否包含表头 默认 false
+    /// </summary>
+    [Parameter]
+    public bool FitColumnWidthIncludeHeader { get; set; }
+
+    /// <summary>
+    /// 列宽自适应方法
+    /// </summary>
+    public async Task FitAllColumnWidth()
+    {
+        await InvokeVoidAsync("fitAllColumnWidth", Id);
+    }
 
     /// <summary>
     /// 重置列方法 由 JavaScript 脚本调用
@@ -1640,14 +1663,15 @@ public partial class Table<TItem> : ITable, IModelEqualityComparer<TItem> where 
     /// 列宽自适应回调方法 由 JavaScript 脚本调用
     /// </summary>
     /// <param name="fieldName">当前列名称</param>
+    /// <param name="calcWidth">当前列宽</param>
     /// <returns></returns>
     [JSInvokable]
-    public async Task<float> AutoFitContentCallback(string fieldName)
+    public async Task<float> AutoFitColumnWidthCallback(string fieldName, float calcWidth)
     {
         float ret = 0;
-        if (OnAutoFitContentAsync != null)
+        if (OnAutoFitColumnWidthCallback != null)
         {
-            ret = await OnAutoFitContentAsync(fieldName);
+            ret = await OnAutoFitColumnWidthCallback(fieldName, calcWidth);
         }
         return ret;
     }
