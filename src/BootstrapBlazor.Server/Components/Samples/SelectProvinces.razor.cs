@@ -6,17 +6,12 @@
 namespace BootstrapBlazor.Server.Components.Samples;
 
 /// <summary>
-/// 城市选择器示例
+/// 省选择器示例
 /// </summary>
-public partial class SelectCities
+public partial class SelectProvinces
 {
     private string? _value = null;
 
-    private bool _showSearch = true;
-
-    private bool _isMultiple = false;
-
-    private bool _isDisabled = false;
-
-    private bool _autoClose = true;
+    private string? _multipleValues = null;
 }
+
