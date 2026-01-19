@@ -1,6 +1,6 @@
-﻿export { getResponsive } from '../../modules/responsive.js'
+export { getResponsive } from '../../modules/responsive.js'
 import { copy, drag, getDescribedElement, getOuterHeight, getWidth, isVisible } from '../../modules/utility.js'
-import '../../modules/browser.js'
+import  browser from '../../modules/browser.min.mjs'
 import Data from '../../modules/data.js'
 import EventHandler from '../../modules/event-handler.js'
 import Popover from "../../modules/base-popover.js"
@@ -21,6 +21,24 @@ export function init(id, invoke, options) {
     reset(id)
 }
 
+export function saveColumnList(tableName, columns) {
+    const key = `bb-table-column-visiable-${tableName}`
+    return localStorage.setItem(key, JSON.stringify(columns));
+}
+
+export function reloadColumnList(tableName) {
+    const key = `bb-table-column-visiable-${tableName}`
+    const json = localStorage.getItem(key);
+    let columns = [];
+    if (json) {
+        try {
+            columns = JSON.parse(json);
+        }
+        catch { }
+    }
+    return columns;
+}
+
 export function reloadColumnWidth(tableName) {
     const key = `bb-table-column-width-${tableName}`
     return localStorage.getItem(key);
@@ -36,7 +54,7 @@ export function saveColumnOrder(options) {
     localStorage.setItem(key, JSON.stringify(options.columns));
 }
 
-export function reset(id) {
+export async function reset(id) {
     const table = Data.get(id)
     if (table === null) {
         return;
@@ -61,7 +79,7 @@ export function reset(id) {
             table.tables.push(table.thead.firstChild)
             table.tables.push(table.body.firstChild)
             table.scrollWidth = parseFloat(table.body.style.getPropertyValue('--bb-scroll-width'));
-            fixHeader(table)
+            await fixHeader(table);
 
             EventHandler.on(table.body, 'scroll', () => {
                 const left = table.body.scrollLeft
@@ -162,6 +180,13 @@ export function resetColumn(id) {
     }
 }
 
+export function resetColDragListener(id) {
+    const table = Data.get(id)
+    if (table) {
+        setDraggable(table)
+    }
+}
+
 export function bindResizeColumn(id) {
     const table = Data.get(id)
     if (table) {
@@ -200,7 +225,7 @@ export function load(id, method) {
 export function scroll(id, align, options = { behavior: 'smooth' }) {
     const element = document.getElementById(id);
     if (element) {
-        const selectedRow = [...element.querySelectorAll('.form-check.is-checked')].pop();
+        const selectedRow = getSelectedRow(element);
         if (selectedRow) {
             const row = selectedRow.closest('tr');
             if (row) {
@@ -209,6 +234,11 @@ export function scroll(id, align, options = { behavior: 'smooth' }) {
             }
         }
     }
+}
+
+const getSelectedRow = element => {
+    const rows = [...element.querySelectorAll('tr.active')];
+    return rows.pop();
 }
 
 export function scrollTo(id) {
@@ -358,7 +388,7 @@ const setBodyHeight = table => {
     }
 }
 
-const fixHeader = table => {
+const fixHeader = async table => {
     const el = table.el
     const fs = el.querySelector('.fixed-scroll')
 
@@ -368,8 +398,8 @@ const fixHeader = table => {
             if (prev.classList.contains('fixed-right') && !prev.classList.contains('modified')) {
                 let margin = prev.style.right
                 margin = margin.replace('px', '')
-                const b = window.browser()
-                if (b.device !== 'PC') {
+                const b = await browser.getInfo();
+                if (b.device !== 'Desktop') {
                     margin = (parseFloat(margin) - table.scrollWidth) + 'px'
                 }
                 prev.classList.add('modified')
@@ -900,7 +930,9 @@ const setDraggable = table => {
     let dragItem = null;
     let index = 0
     table.dragColumns = [...table.tables[0].querySelectorAll('thead > tr > th')].filter(i => i.draggable)
+    disposeDragColumns(table.dragColumns);
     table.dragColumns.forEach(col => {
+
         EventHandler.on(col, 'dragstart', e => {
             col.parentNode.classList.add('table-dragging')
             col.classList.add('table-drag')

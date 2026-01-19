@@ -1,4 +1,4 @@
-﻿.table-container {
+.table-container {
     --bb-table-td-padding-x: .5rem;
     --bb-table-td-padding-y: .5rem;
     --bb-table-cardview-label-width: 30%;
@@ -72,7 +72,7 @@
 }
 
 .table-sm {
-    --bb-table-td-padding-x: .25rem;
+    --bb-table-td-padding-x: .35rem;
     --bb-table-td-padding-y: .25rem;
 }
 
@@ -307,9 +307,24 @@
     margin-block-end: .5rem;
 }
 
-.table-toolbar .dropdown-menu {
-    max-height: var(--bb-table-columnlist-max-height);
-    overflow: auto;
+.table-toolbar .dropdown-column .dropdown-menu {
+
+    &:not(.dropdown-menu-controls) {
+        max-height: var(--bb-table-columnlist-max-height);
+        overflow: auto;
+    }
+
+    .column-list-controls {
+        display: flex;
+        flex-wrap: nowrap;
+        padding: 0 var(--bs-dropdown-item-padding-x);
+        margin-block-end: .5rem;
+    }
+
+    .column-list-items {
+        max-height: var(--bb-table-columnlist-max-height);
+        overflow: auto;
+    }
 }
 
 .table-toolbar .dropdown-menu .dropdown-item span {
@@ -549,7 +564,6 @@ tr.active:not(.is-edit):hover {
 
 .table-fixed-column {
     .table {
-        table-layout: fixed;
         border-collapse: separate;
         border-spacing: 0;
     }
@@ -967,4 +981,12 @@ form .table .table-cell > textarea {
 
 .bb-sortable tr {
     cursor: pointer;
+}
+
+.btn-separate {
+    display: inline-flex;
+
+    > button:not(:last-child) {
+        margin-inline-end: .25rem;
+    }
 }

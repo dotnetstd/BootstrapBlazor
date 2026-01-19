@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the Apache 2.0 License
 // See the LICENSE file in the project root for more information.
 // Maintainer: Argo Zhang(argo@live.ca) Website: https://www.blazor.zone
@@ -305,6 +305,11 @@ internal static class MenusLocalizerExtensions
                 },
                 new()
                 {
+                    Text = Localizer["HostMode"],
+                    Url = "host-model"
+                },
+                new()
+                {
                     Text = Localizer["ProjectTemplate"],
                     Url = "template"
                 },
@@ -332,27 +337,6 @@ internal static class MenusLocalizerExtensions
                 {
                     Text = Localizer["GlobalOption"],
                     Url = "global-option"
-                },
-                new()
-                {
-                    Text = Localizer["WebAppBlazor"],
-                    Url = "install-webapp",
-                },
-                new()
-                {
-                    Text = Localizer["ServerBlazor"],
-                    Url = "install-server",
-                },
-                new()
-                {
-                    Text = Localizer["ClientBlazor"],
-                    Url = "install-wasm",
-                },
-                new()
-                {
-                    Text = Localizer["MauiBlazor"],
-                    Url = "install-maui",
-                    Match = NavLinkMatch.All
                 },
                 new()
                 {
@@ -749,6 +733,12 @@ internal static class MenusLocalizerExtensions
                 },
                 new()
                 {
+                    IsNew = true,
+                    Text = Localizer["HikVision"],
+                    Url = "hik-vision"
+                },
+                new()
+                {
                     Text = Localizer["GroupBox"],
                     Url = "group-box"
                 },
@@ -807,6 +797,11 @@ internal static class MenusLocalizerExtensions
                     IsNew = true,
                     Text = Localizer["OfficeViewer"],
                     Url = "office-viewer"
+                },
+                new()
+                {
+                    Text = Localizer["EmbedPdf"],
+                    Url = "embed-pdf"
                 },
                 new()
                 {

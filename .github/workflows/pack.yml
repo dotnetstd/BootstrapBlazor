@@ -46,5 +46,8 @@ jobs:
 
       run: |
         dotnet build src/BootstrapBlazor
-        dotnet pack src/BootstrapBlazor -c Release -o publish
+        dotnet pack src/BootstrapBlazor -c Release -o publish -p:VisualStudioVersion='17.0'
+        dotnet nuget push publish/BootstrapBlazor.*.nupkg -s https://api.nuget.org/v3/index.json -k $NUGET_API_KEY --skip-duplicate
+        rm -f publish/BootstrapBlazor.*.nupkg
+        dotnet pack src/BootstrapBlazor -c Release -o publish -p:VisualStudioVersion='18.0'
         dotnet nuget push publish/BootstrapBlazor.*.nupkg -s https://api.nuget.org/v3/index.json -k $NUGET_API_KEY --skip-duplicate

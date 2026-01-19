@@ -1,4 +1,4 @@
-﻿import { debounce, registerBootstrapBlazorModule } from "../../modules/utility.js"
+import { debounce, registerBootstrapBlazorModule } from "../../modules/utility.js"
 import { handleKeyUp, select, selectAllByFocus, selectAllByEnter } from "../Input/BootstrapInput.razor.js"
 import Data from "../../modules/data.js"
 import EventHandler from "../../modules/event-handler.js"
@@ -143,21 +143,32 @@ export function init(id, invoke, value, changedEventCallback) {
 
     EventHandler.on(el, 'click', '.clear-icon', e => {
         input.value = '';
-        invoke.invokeMethodAsync('TriggerFilter', '');
+        invoke.invokeMethodAsync('TriggerClear');
     });
 }
 
 const handlerKeydown = (ac, e) => {
     const key = e.key;
     const { el, invoke, menu } = ac;
-    if (key === 'Enter' || key === 'NumpadEnter') {
+    if (key === 'Enter') {
         const skipEnter = el.getAttribute('data-bb-skip-enter') === 'true';
         if (!skipEnter) {
-            const current = menu.querySelector('.active');
-            if (current !== null) {
-                current.click();
+            let activeItem = null;
+            const items = [...menu.querySelectorAll('.dropdown-item')];
+            if (items.length === 1) {
+                activeItem = items[0];
             }
-            invoke.invokeMethodAsync('EnterCallback');
+            else {
+                activeItem = menu.querySelector('.active');
+            }
+
+            const handler = setTimeout(async () => {
+                clearTimeout(handler);
+                if (activeItem !== null) {
+                    activeItem.click();
+                }
+                await invoke.invokeMethodAsync('EnterCallback');
+            }, 0);
         }
     }
     else if (key === 'Escape') {

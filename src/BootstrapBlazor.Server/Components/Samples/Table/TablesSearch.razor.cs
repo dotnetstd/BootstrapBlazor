@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the Apache 2.0 License
 // See the LICENSE file in the project root for more information.
 // Maintainer: Argo Zhang(argo@live.ca) Website: https://www.blazor.zone
@@ -138,9 +138,9 @@ public partial class TablesSearch
             Items = items,
             TotalCount = total,
             IsSorted = true,
-            IsFiltered = options.Filters.Any(),
-            IsSearch = options.Searches.Any(),
-            IsAdvanceSearch = options.AdvanceSearches.Any()
+            IsFiltered = options.Filters.Count != 0,
+            IsSearch = options.Searches.Count != 0,
+            IsAdvanceSearch = options.AdvanceSearches.Count != 0
         });
     }
 

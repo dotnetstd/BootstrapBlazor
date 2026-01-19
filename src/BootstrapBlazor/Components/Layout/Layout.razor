@@ -1,4 +1,4 @@
-﻿@namespace BootstrapBlazor.Components
+@namespace BootstrapBlazor.Components
 @inherits BootstrapModuleComponentBase
 @attribute [BootstrapModuleAutoLoader(JSObjectReference = true)]
 
@@ -126,8 +126,9 @@
         }
         else
         {
-            <ErrorLogger EnableErrorLogger="@EnableLogger" ShowToast="@ShowToast" ToastTitle="@ErrorLoggerToastTitle"
-                         EnableILogger="@EnableILogger" OnErrorHandleAsync="OnErrorHandleAsync" OnInitializedCallback="OnErrorLoggerInitialized">
+            <ErrorLogger EnableErrorLogger="@EnableLogger" EnableILogger="@EnableILogger"
+                         ShowToast="@ShowToast" ToastTitle="@ErrorLoggerToastTitle"
+                         OnErrorHandleAsync="OnErrorHandleAsync" OnInitializedCallback="OnErrorLoggerInitialized">
                 @HandlerMain()
             </ErrorLogger>
         }
@@ -138,7 +139,7 @@
           ShowExtendButtons="ShowTabExtendButtons" ShowClose="ShowTabItemClose" AllowDrag="AllowDragTab"
           DefaultUrl="@TabDefaultUrl" ExcludeUrls="@ExcludeUrls" IsOnlyRenderActiveTab="IsOnlyRenderActiveTab"
           TabStyle="TabStyle" ShowToolbar="@ShowToolbar" ToolbarTemplate="@ToolbarTemplate"
-          ShowContextMenu="ShowTabContextMenu"
+          ShowContextMenu="ShowTabContextMenu" OnTabHeaderTextLocalizer="OnTabHeaderTextLocalizer"
           BeforeContextMenuTemplate="@BeforeTabContextMenuTemplate" ContextMenuTemplate="@TabContextMenuTemplate"
           ContextMenuRefreshIcon="@TabContextMenuRefreshIcon" ContextMenuCloseIcon="@TabContextMenuCloseIcon"
           ContextMenuCloseOtherIcon="@TabContextMenuCloseOtherIcon" ContextMenuCloseAllIcon="@TabContextMenuCloseAllIcon"
@@ -146,9 +147,11 @@
           ShowRefreshToolbarButton="ShowRefreshToolbarButton" ShowFullscreenToolbarButton="ShowFullscreenToolbarButton"
           RefreshToolbarButtonIcon="@RefreshToolbarButtonIcon" FullscreenToolbarButtonIcon="@FullscreenToolbarButtonIcon"
           RefreshToolbarTooltipText="@RefreshToolbarTooltipText" FullscreenToolbarTooltipText="@FullscreenToolbarTooltipText"
-          OnToolbarRefreshCallback="OnToolbarRefreshCallback" TabHeader="TabHeader"
+          OnToolbarRefreshCallback="OnToolbarRefreshCallback" TabHeader="TabHeader" OnCloseTabItemAsync="OnCloseTabItemAsync"
           Body="@Main" NotAuthorized="NotAuthorized!" NotFound="NotFound!" NotFoundTabText="@NotFoundTabText"
-          EnableErrorLogger="@EnableLogger" ErrorLoggerToastTitle="@ErrorLoggerToastTitle">
+          EnableErrorLogger="@EnableLogger" EnableErrorLoggerILogger="@EnableErrorLoggerILogger"
+          ShowErrorLoggerToast="ShowErrorLoggerToast" ErrorLoggerToastTitle="@ErrorLoggerToastTitle"
+          OnErrorHandleAsync="OnErrorHandleAsync">
     </Tab>;
 
     RenderFragment RenderFooter =>

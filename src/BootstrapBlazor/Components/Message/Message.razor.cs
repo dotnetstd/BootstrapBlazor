@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the Apache 2.0 License
 // See the LICENSE file in the project root for more information.
 // Maintainer: Argo Zhang(argo@live.ca) Website: https://www.blazor.zone
@@ -6,19 +6,22 @@
 namespace BootstrapBlazor.Components;
 
 /// <summary>
-/// Message 组件
+/// <para lang="zh">Message 组件</para>
+/// <para lang="en">Message Component</para>
 /// </summary>
 public partial class Message
 {
     /// <summary>
-    /// 获得 组件样式
+    /// <para lang="zh">获得 组件样式</para>
+    /// <para lang="en">Get Component Style</para>
     /// </summary>
     private string? ClassString => CssBuilder.Default("message")
         .AddClass("is-bottom", Placement != Placement.Top)
         .Build();
 
     /// <summary>
-    /// 获得 Toast 组件样式设置
+    /// <para lang="zh">获得 Toast 组件样式设置</para>
+    /// <para lang="en">Get Toast Component Style Settings</para>
     /// </summary>
     private string? StyleName => CssBuilder.Default()
         .AddClass("top: 1rem;", Placement != Placement.Bottom)
@@ -27,14 +30,21 @@ public partial class Message
 
     private readonly List<MessageOption> _messages = [];
 
+    private IEnumerable<MessageOption> MessagesForRender => Placement == Placement.Bottom
+        ? _messages.AsEnumerable().Reverse()
+        : _messages;
+
     /// <summary>
-    /// 获得/设置 显示位置 默认为 Top
+    /// <para lang="zh">获得/设置 显示位置 默认为 Top</para>
+    /// <para lang="en">Gets or sets Display placement. Default Top</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public Placement Placement { get; set; } = Placement.Top;
 
     /// <summary>
-    /// ToastServices 服务实例
+    /// <para lang="zh">ToastServices 服务实例</para>
+    /// <para lang="en">MessageService Service Instance</para>
     /// </summary>
     [Inject]
     [NotNull]
@@ -55,7 +65,7 @@ public partial class Message
     /// <inheritdoc/>
     /// </summary>
     /// <returns></returns>
-    protected override Task InvokeInitAsync() => InvokeVoidAsync("init", Id, Interop, nameof(Clear));
+    protected override Task InvokeInitAsync() => InvokeVoidAsync("init", Id, Interop);
 
     private static string? GetAutoHideString(MessageOption option) => option.IsAutoHide ? "true" : null;
 
@@ -64,6 +74,10 @@ public partial class Message
         .AddClass($"border-{option.Color.ToDescriptionString()}", option.ShowBorder)
         .AddClass("shadow", option.ShowShadow)
         .AddClass("alert-bar", option.ShowBar)
+        .AddClass(option.ClassString)
+        .Build();
+
+    private static string? GetItemStyleString(MessageOption option) => CssBuilder.Default(option.StyleString)
         .Build();
 
     private string GetItemId(MessageOption option) => $"{Id}_{option.GetHashCode()}";
@@ -86,7 +100,8 @@ public partial class Message
     }
 
     /// <summary>
-    /// 设置 Toast 容器位置方法
+    /// <para lang="zh">设置 容器位置方法</para>
+    /// <para lang="en">Set Container Placement Method</para>
     /// </summary>
     /// <param name="placement"></param>
     public void SetPlacement(Placement placement)
@@ -105,33 +120,41 @@ public partial class Message
         if (!_messages.Contains(option))
         {
             _messages.Add(option);
-            _msgId = GetItemId(option);
         }
+        _msgId = GetItemId(option);
         await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
-    /// 清除 Message 方法 由 JSInvoke 触发
+    /// <para lang="zh">清除 Message 方法 由 JSInvoke 触发</para>
+    /// <para lang="en">Clear Message Method. Triggered by JSInvoke</para>
     /// </summary>
     [JSInvokable]
-    public Task Clear()
+    public void Clear(string id)
     {
-        _messages.Clear();
+        var option = _messages.Find(i => GetItemId(i) == id);
+        if (option != null)
+        {
+            _messages.Remove(option);
+        }
+
         StateHasChanged();
-        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// OnDismiss 回调方法 由 JSInvoke 触发
+    /// <para lang="zh">OnDismiss 回调方法 由 JSInvoke 触发</para>
+    /// <para lang="en">OnDismiss Callback Method. Triggered by JSInvoke</para>
     /// </summary>
     /// <param name="id"></param>
     [JSInvokable]
-    public async Task Dismiss(string id)
+    public async ValueTask Dismiss(string id)
     {
         var option = _messages.Find(i => GetItemId(i) == id);
         if (option is { OnDismiss: not null })
         {
             await option.OnDismiss();
+            _messages.Remove(option);
+            StateHasChanged();
         }
     }
 

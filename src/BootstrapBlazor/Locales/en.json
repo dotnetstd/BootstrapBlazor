@@ -1,4 +1,4 @@
-﻿{
+{
   "BootstrapBlazor.Components.AutoComplete": {
     "NoDataTip": "No Data",
     "PlaceHolder": "Please Input"
@@ -34,6 +34,7 @@
     "AutoScrollText": "AutoScroll"
   },
   "BootstrapBlazor.Components.DateTimePicker": {
+    "PickerButtonText": "Picker ...",
     "DatePlaceHolder": "Select date",
     "TimePlaceHolder": "Select time",
     "DateTimePlaceHolderText": "Please select ...",
@@ -253,7 +254,10 @@
     "AlignCenterText": "Center",
     "AlignCenterTooltipText": "Click to align text in this column to the center",
     "AlignRightText": "Right",
-    "AlignRightTooltipText": "Click to align text in this column to the right"
+    "AlignRightTooltipText": "Click to align text in this column to the right",
+    "ColumnListSelectAllText": "All",
+    "ColumnListSelectInvertText": "Invert",
+    "MoreButtonText": "More"
   },
   "BootstrapBlazor.Components.EditDialog": {
     "CloseButtonText": "Close",
@@ -398,5 +402,8 @@
   },
   "BootstrapBlazor.Components.LoadMore": {
     "NoMoreText": "No More Data"
+  },
+  "BootstrapBlazor.Components.CardUpload": {
+    "DeleteConfirmContent": "Are you sure you want to delete the current data?"
   }
 }

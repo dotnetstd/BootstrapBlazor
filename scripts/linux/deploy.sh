@@ -27,6 +27,7 @@ sudo systemctl enable ba.blazor
 
 echo "*********************** install nginx ***********************"
 yes|sudo apt install nginx
+mkdir /usr/share/nginx/logs
 
 echo "*********************** copy nginx config ***********************"
 sudo cp BootstrapBlazor/scripts/linux/nginx.conf /etc/nginx/
@@ -48,4 +49,4 @@ sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 
 sudo apt-get update && \
-  sudo apt-get install -y dotnet-sdk-9.0
+  sudo apt-get install -y dotnet-sdk-10.0

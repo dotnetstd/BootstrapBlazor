@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the Apache 2.0 License
 // See the LICENSE file in the project root for more information.
 // Maintainer: Argo Zhang(argo@live.ca) Website: https://www.blazor.zone
@@ -9,42 +9,55 @@ using Microsoft.Extensions.Localization;
 namespace BootstrapBlazor.Components;
 
 /// <summary>
-/// 编辑弹窗组件
+/// <para lang="zh">编辑弹窗组件</para>
+/// <para lang="en">Edit Dialog Component</para>
 /// </summary>
 public partial class EditDialog<TModel>
 {
     /// <summary>
-    /// 获得/设置 查询时是否显示正在加载中动画 默认为 false
+    /// <para lang="zh">获得/设置 查询时是否显示正在加载中动画 默认为 false</para>
+    /// <para lang="en">Gets or sets Whether to Show Loading Animation When Querying. Default is false</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public bool ShowLoading { get; set; }
 
     /// <summary>
-    /// 获得/设置 组件是否采用 Tracking 模式对编辑项进行直接更新 默认 false
+    /// <para lang="zh">获得/设置 组件是否采用 Tracking 模式对编辑项进行直接更新 默认 false</para>
+    /// <para lang="en">Gets or sets Whether Component Uses Tracking Mode to Update Editing Items Directly. Default is false</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public bool IsTracking { get; set; }
 
     /// <summary>
-    /// 获得/设置 实体类编辑模式 Add 还是 Update
+    /// <para lang="zh">获得/设置 实体类编辑模式 Add 还是 Update</para>
+    /// <para lang="en">Gets or sets Item Changed Type (Add or Update)</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public ItemChangedType ItemChangedType { get; set; }
 
     /// <summary>
-    /// 获得/设置 保存按钮图标
+    /// <para lang="zh">获得/设置 保存按钮图标</para>
+    /// <para lang="en">Gets or sets Save Button Icon</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public string? SaveButtonIcon { get; set; }
 
     /// <summary>
-    /// 获得/设置 保存按钮文本
+    /// <para lang="zh">获得/设置 保存按钮文本</para>
+    /// <para lang="en">Gets or sets Save Button Text</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public string? SaveButtonText { get; set; }
 
     /// <summary>
-    /// 获得/设置 保存回调委托 返回 false 时保持编辑弹窗 返回 true 时关闭编辑弹窗
+    /// <para lang="zh">获得/设置 保存回调委托 返回 false 时保持编辑弹窗 返回 true 时关闭编辑弹窗</para>
+    /// <para lang="en">Gets or sets Save Callback Delegate. Return false to keep edit dialog, true to close it</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
 #if NET6_0_OR_GREATER
@@ -53,31 +66,41 @@ public partial class EditDialog<TModel>
     public Func<EditContext, Task<bool>>? OnSaveAsync { get; set; }
 
     /// <summary>
-    /// 获得/设置 关闭按钮图标
+    /// <para lang="zh">获得/设置 关闭按钮图标</para>
+    /// <para lang="en">Gets or sets Close Button Icon</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public string? CloseButtonIcon { get; set; }
 
     /// <summary>
-    /// 获得/设置 获得/设置 重置按钮文本
+    /// <para lang="zh">获得/设置 获得/设置 重置按钮文本</para>
+    /// <para lang="en">Gets or sets Reset Button Text</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public string? CloseButtonText { get; set; }
 
     /// <summary>
-    /// 获得/设置 关闭弹窗回调方法
+    /// <para lang="zh">获得/设置 关闭弹窗回调方法</para>
+    /// <para lang="en">Gets or sets Close Dialog Callback Method</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public Func<Task>? OnCloseAsync { get; set; }
 
     /// <summary>
-    /// 获得/设置 是否禁用表单内回车自动提交功能 默认 null 未设置
+    /// <para lang="zh">获得/设置 是否禁用表单内回车自动提交功能 默认 null 未设置</para>
+    /// <para lang="en">Gets or sets Whether to Disable Auto Submit Form By Enter. Default is null</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public bool? DisableAutoSubmitFormByEnter { get; set; }
 
     /// <summary>
-    /// 获得/设置 DialogFooterTemplate 实例
+    /// <para lang="zh">获得/设置 DialogFooterTemplate 实例</para>
+    /// <para lang="en">Gets or sets DialogFooterTemplate Instance</para>
+    /// <para><version>10.2.2</version></para>
     /// </summary>
     [Parameter]
     public RenderFragment<TModel>? FooterTemplate { get; set; }
@@ -94,7 +117,8 @@ public partial class EditDialog<TModel>
     private IIconTheme? IconTheme { get; set; }
 
     /// <summary>
-    /// OnParametersSet 方法
+    /// <para lang="zh">OnParametersSet 方法</para>
+    /// <para lang="en">OnParametersSet Method</para>
     /// </summary>
     protected override void OnParametersSet()
     {
@@ -123,9 +147,10 @@ public partial class EditDialog<TModel>
     }
 
     /// <summary>
-    /// 显示/隐藏 Loading 遮罩
+    /// <para lang="zh">显示/隐藏 Loading 遮罩</para>
+    /// <para lang="en">Show/Hide Loading Mask</para>
     /// </summary>
-    /// <param name="state">true 时显示，false 时隐藏</param>
+    /// <param name="state"><para lang="zh">true 时显示，false 时隐藏</para><para lang="en">true to show, false to hide</para></param>
     /// <returns></returns>
     public async ValueTask ToggleLoading(bool state)
     {
@@ -156,6 +181,7 @@ public partial class EditDialog<TModel>
             builder.AddAttribute(32, nameof(Button.Icon), SaveButtonIcon);
             builder.AddAttribute(33, nameof(Button.Text), SaveButtonText);
             builder.AddAttribute(34, nameof(Button.ButtonType), ButtonType.Submit);
+            builder.AddAttribute(35, nameof(Button.IsAsync), true);
             builder.CloseComponent();
         }
     };
